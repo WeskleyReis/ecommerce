@@ -3,6 +3,7 @@ from pathlib import Path
 from PIL import Image
 from django.db import models
 from django.utils.text import slugify
+from utils import utils
 
 
 class Produto(models.Model):
@@ -15,7 +16,7 @@ class Produto(models.Model):
     )
     slug = models.SlugField(unique=True, blank=True, null=True)
     preco_marketing = models.FloatField(verbose_name='Preço')
-    preco_marketing_promocional = models.FloatField(default=0, verbose_name='Preço promocional')
+    preco_marketing_promocional = models.FloatField(default=0, blank=True, verbose_name='Preço promocional')
     tipo = models.CharField(
         default='V',
         max_length=1,
@@ -26,11 +27,11 @@ class Produto(models.Model):
     )
 
     def get_preco_formatado(self):
-        return f'R$ {self.preco_marketing:.2f}'.replace('.', ',')
+        return utils.formata_preco(self.preco_marketing)
     get_preco_formatado.short_description = 'Preço'
 
     def get_preco_promocional_formatado(self):
-        return f'R$ {self.preco_marketing_promocional:.2f}'.replace('.', ',')
+        return utils.formata_preco(self.preco_marketing_promocional)
     get_preco_promocional_formatado.short_description = 'Preço Promocional'
 
     @staticmethod
@@ -77,7 +78,7 @@ class Variacao(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     nome = models.CharField(max_length=50, blank=True, null=True)
     preco = models.FloatField(verbose_name='Preço')
-    preco_promocional = models.FloatField(default=0, verbose_name='Preço promocional')
+    preco_promocional = models.FloatField(default=0, blank=True, verbose_name='Preço promocional')
     estoque = models.PositiveIntegerField(default=0)
 
     def __str__(self):
