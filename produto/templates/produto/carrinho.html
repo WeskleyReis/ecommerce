@@ -37,9 +37,9 @@
 					<td>
 						{{ linha.quantidade }} x
 						{% if linha.preco_unitario_promocional %}
-							{{ linha.preco_unitario_promocional|formata_preco }}
+							{{ linha.preco_unitario_promocional }}
 						{% else %}
-							{{ linha.preco_unitario|formata_preco }}
+							{{ linha.preco_unitario }}
 						{% endif %}
 					</td>
 					{% if linha.preco_quantitativo_promocional %}
