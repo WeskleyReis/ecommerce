@@ -9,10 +9,10 @@ def cart_total_qtd(carrinho):
 def cart_totals(carrinho):
     return sum(
         [
-            item.get('preco_quantitavio_promocional')
+            item.get('preco_quantitativo_promocional')
             if item.get('preco_quantitativo_promocional')
             else item.get('preco_quantitativo')
-            for item 
+            for item
             in carrinho.values()
         ]
     )

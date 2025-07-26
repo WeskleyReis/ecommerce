@@ -3643,6 +3643,15 @@ input[type="button"].btn-block {
   .alert-danger .alert-link {
     color: #491217; }
 
+.alert-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb; }
+  .alert-error hr {
+    border-top-color: #f1b0b7; }
+  .alert-error .alert-link {
+    color: #491217; }
+
 .alert-light {
   color: #818182;
   background-color: #fefefe;

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
 from django.views import View
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -55,13 +55,17 @@ class BasePerfil(View):
 class Criar(BasePerfil):
     def post(self, *args, **kwargs):
         if not self.userform.is_valid() or not self.perfilform.is_valid():
+            messages.error(
+                self.request,
+                'Existem erros no formulário de cadastro. Verifique se todos os campos foram preenchidos corretamente.'
+            )
             return self.renderizar
         
-        username = self.userform.cleane_data.get('username')
-        password = self.userform.cleane_data.get('password')
-        email = self.userform.cleane_data.get('email')
-        first_name = self.userform.cleane_data.get('first_name')
-        last_name = self.userform.cleane_data.get('last_name')
+        username = self.userform.cleaned_data.get('username')
+        password = self.userform.cleaned_data.get('password')
+        email = self.userform.cleaned_data.get('email')
+        first_name = self.userform.cleaned_data.get('first_name')
+        last_name = self.userform.cleaned_data.get('last_name')
 
         if self.request.user.is_authenticated:
             usuario = get_object_or_404(User, username=self.request.user.username)
@@ -99,8 +103,8 @@ class Criar(BasePerfil):
                 password=password
             )
 
-        if autentica:
-            login(self.request, user=usuario)
+            if autentica:
+                login(self.request, user=usuario)
 
         self.request.session['carrinho'] = self.carrinho
         self.request.session.save()
@@ -119,7 +123,8 @@ class Criar(BasePerfil):
 
 
 class Atualizar(View):
-    ...
+    def get(self, *args, **kwargs):
+        return HttpResponse('Atualizar')
 
 
 class Login(View):
