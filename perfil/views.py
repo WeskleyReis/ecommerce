@@ -129,10 +129,10 @@ class Atualizar(View):
 
 class Login(View):
     def post(self, *args, **kwargs):
-        username = self.request.session.POST.get('username')
-        password = self.request.session.POST.get('password')
+        username = self.request.POST.get('username')
+        password = self.request.POST.get('password')
 
-        if not username or password:
+        if not username or not password:
             messages.error(
                 self.request,
                 'Usuário ou senha inválidos.'
